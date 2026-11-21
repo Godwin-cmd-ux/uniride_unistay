@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "UniRide UniStay",
+    "slug": "uniride-unistay",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "unirideunistay",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "icon": "./assets/images/icon.png",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.unirideunistay.mobile"
+    },
+    "android": {
+      "package": "com.unirideunistay.mobile",
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#0F172A"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0F172A"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b6116e98-e21b-43d3-ad89-57e11b46efe0"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b6116e98-e21b-43d3-ad89-57e11b46efe0"
+    }
+  }
+}

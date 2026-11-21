@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native (regenerate with `npx expo prebuild`)
+/android
+/ios
+
+# Metro
+.metro-cache/
+.metro-file-map-cache/
+.metro-health-check*
+.tmp/
+
+# certificates / keys
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+
+# logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# env files (never commit secrets)
+.env
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# misc
+.DS_Store
+Thumbs.db
+app-example

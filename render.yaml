@@ -1,0 +1,61 @@
+# Render Blueprint — Docker deployment for the UniRide UniStay stack.
+#
+# Deploy: push this repo to GitHub, then Render Dashboard → New → Blueprint →
+# select the repo (it reads render.yaml) → Apply. Render creates the database
+# first, then both services, then wires DATABASE_URL in automatically.
+#
+# If Render renames a service (because the name is taken), update the three URLs
+# below: CORS_ORIGIN, PUBLIC_API_URL and NEXT_PUBLIC_API_URL.
+
+databases:
+  - name: uniride-db
+    databaseName: uniride_unistay
+    user: uniride
+    # Free Postgres is deleted after 30 days. Upgrade before you rely on it.
+    plan: free
+    region: frankfurt
+
+services:
+  - type: web
+    name: uniride-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: uniride-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: WEBHOOK_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://uniride-web.onrender.com
+      - key: PUBLIC_API_URL
+        value: https://uniride-api.onrender.com
+    # Free instances have an ephemeral filesystem: uploaded images disappear on
+    # every deploy/restart. On a paid plan uncomment this disk (owned by /app/uploads):
+    # disk:
+    #   name: uniride-uploads
+    #   mountPath: /app/uploads
+    #   sizeGB: 1
+
+  - type: web
+    name: uniride-web
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./web/Dockerfile
+    dockerContext: ./web
+    healthCheckPath: /
+    envVars:
+      # Baked into the client bundle at image build time (Render passes service
+      # env vars to the Docker build as build args). Changing it requires a redeploy.
+      - key: NEXT_PUBLIC_API_URL
+        value: https://uniride-api.onrender.com
