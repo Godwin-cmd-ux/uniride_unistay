@@ -17,7 +17,7 @@
       "autoIncrement": true,
       "channel": "production",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://bca7-196-249-109-172.ngrok-free.app"
+        "EXPO_PUBLIC_API_URL": "https://uniride-api.onrender.com"
       },
       "android": {
         "buildType": "apk"
