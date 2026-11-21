@@ -3,12 +3,12 @@
 # Deploy: push this repo to GitHub, then Render Dashboard → New → Blueprint →
 # select the repo (it reads render.yaml) → Apply.
 #
-# The database is Supabase. DATABASE_URL is not stored in this file: set it in
-# the Render dashboard to the Supabase session-pooler URL (port 5432) with the
-# password URL-encoded. SSL is enabled by DATABASE_SSL=true; sslmode is optional.
+# One service runs the whole stack: the Express API, /uploads and the Next.js
+# web app behind nginx on the same origin. The database is Supabase; DATABASE_URL
+# is not stored here. Set it in the Render dashboard to the Supabase session-pooler
+# URL (port 5432) with the password URL-encoded. SSL is enabled by DATABASE_SSL=true.
 #
-# If Render renames a service (because the name is taken), update the three URLs
-# below: CORS_ORIGIN, PUBLIC_API_URL and NEXT_PUBLIC_API_URL.
+# If Render renames the service, update the three public URLs below.
 
 services:
   - type: web
@@ -16,8 +16,8 @@ services:
     runtime: docker
     plan: free
     region: frankfurt
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -31,8 +31,11 @@ services:
       - key: WEBHOOK_SECRET
         generateValue: true
       - key: CORS_ORIGIN
-        value: https://uniride-web.onrender.com
+        value: https://uniride-unistay.onrender.com
       - key: PUBLIC_API_URL
+        value: https://uniride-unistay.onrender.com
+      # Same origin as the web app. Build-time value: changing it needs a redeploy.
+      - key: NEXT_PUBLIC_API_URL
         value: https://uniride-unistay.onrender.com
     # Free instances have an ephemeral filesystem: uploaded images disappear on
     # every deploy/restart. On a paid plan uncomment this disk (owned by /app/uploads):
@@ -40,17 +43,3 @@ services:
     #   name: uniride-uploads
     #   mountPath: /app/uploads
     #   sizeGB: 1
-
-  - type: web
-    name: uniride-web
-    runtime: docker
-    plan: free
-    region: frankfurt
-    dockerfilePath: ./web/Dockerfile
-    dockerContext: ./web
-    healthCheckPath: /
-    envVars:
-      # Baked into the client bundle at image build time (Render passes service
-      # env vars to the Docker build as build args). Changing it requires a redeploy.
-      - key: NEXT_PUBLIC_API_URL
-        value: https://uniride-unistay.onrender.com

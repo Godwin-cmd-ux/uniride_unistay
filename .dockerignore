@@ -4,14 +4,16 @@
 **/.next
 **/dist
 **/*.log
+**/*.tsbuildinfo
 **/.env
 **/.env.*
 backend/uploads/*
 !backend/uploads/seed
 !backend/uploads/seed/**
-web
 uniride_unistay_mobile
-deploy
+vibe_images
+project research.txt
+WhatsApp Image 2026-11-21 at 19.50.26.jpeg
 supabase
 docker-compose.yml
 render.yaml
