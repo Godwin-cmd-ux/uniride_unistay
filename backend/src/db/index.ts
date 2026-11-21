@@ -15,8 +15,20 @@ if (config.env !== 'production') {
 const useSsl =
   process.env.DATABASE_SSL === 'true' || /[?&]sslmode=require/.test(config.databaseUrl);
 
+// pg reads sslmode from the URL and overrides the `ssl` option below, which
+// rejects Supabase's self-signed chain. Strip it and rely on the ssl option.
+function stripSslMode(raw: string) {
+  try {
+    const url = new URL(raw);
+    url.searchParams.delete('sslmode');
+    return url.toString();
+  } catch {
+    return raw;
+  }
+}
+
 export const pool = new Pool({
-  connectionString: config.databaseUrl,
+  connectionString: useSsl ? stripSslMode(config.databaseUrl) : config.databaseUrl,
   ssl: useSsl ? { rejectUnauthorized: false } : undefined,
   max: 10,
   idleTimeoutMillis: 30_000,
