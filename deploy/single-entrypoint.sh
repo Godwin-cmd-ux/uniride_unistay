@@ -2,10 +2,10 @@
 set -euo pipefail
 
 cd /app
-mkdir -p /app/uploads /tmp/nginx/client_temp /tmp/nginx/proxy_temp \
+mkdir -p /app/uploads/seed /tmp/nginx/client_temp /tmp/nginx/proxy_temp \
   /tmp/nginx/fastcgi_temp /tmp/nginx/uwsgi_temp /tmp/nginx/scgi_temp
 if [ -d /app/backend/seed-uploads ]; then
-  cp -n /app/backend/seed-uploads/* /app/uploads/ 2>/dev/null || true
+  cp -n /app/backend/seed-uploads/* /app/uploads/seed/ 2>/dev/null || true
 fi
 
 node backend/dist/db/migrate.js

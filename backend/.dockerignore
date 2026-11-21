@@ -5,3 +5,4 @@ dist
 .env.*
 uploads/*
 !uploads/seed
+!uploads/seed/**
