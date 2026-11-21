@@ -12,7 +12,7 @@
 
 services:
   - type: web
-    name: uniride-api
+    name: uniride-unistay
     runtime: docker
     plan: free
     region: frankfurt
@@ -33,7 +33,7 @@ services:
       - key: CORS_ORIGIN
         value: https://uniride-web.onrender.com
       - key: PUBLIC_API_URL
-        value: https://uniride-api.onrender.com
+        value: https://uniride-unistay.onrender.com
     # Free instances have an ephemeral filesystem: uploaded images disappear on
     # every deploy/restart. On a paid plan uncomment this disk (owned by /app/uploads):
     # disk:
@@ -53,4 +53,4 @@ services:
       # Baked into the client bundle at image build time (Render passes service
       # env vars to the Docker build as build args). Changing it requires a redeploy.
       - key: NEXT_PUBLIC_API_URL
-        value: https://uniride-api.onrender.com
+        value: https://uniride-unistay.onrender.com

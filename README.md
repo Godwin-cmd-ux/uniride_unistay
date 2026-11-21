@@ -246,7 +246,7 @@ The repo ships everything Render needs:
 
 | File | Purpose |
 | --- | --- |
-| [`render.yaml`](render.yaml) | Blueprint: `uniride-api` + `uniride-web`, env wiring, health checks; the database is Supabase |
+| [`render.yaml`](render.yaml) | Blueprint: `uniride-unistay` + `uniride-web`, env wiring, health checks; the database is Supabase |
 | [`backend/Dockerfile`](backend/Dockerfile) | Multi-stage Node 22 image (TypeScript build, prod deps only, non-dev run) |
 | [`backend/docker-entrypoint.sh`](backend/docker-entrypoint.sh) | Copies seed images to `/app/uploads` and applies the schema on boot |
 | [`web/Dockerfile`](web/Dockerfile) | Next.js `standalone` build, runtime image ~200 MB |
@@ -258,7 +258,7 @@ The repo ships everything Render needs:
 1. Create a Supabase project and run [`supabase/schema.sql`](supabase/schema.sql) in its SQL Editor. Copy the **Session pooler** connection string (port 5432) and URL-encode the password.
 2. Push the repo (including `render.yaml`) to GitHub.
 3. Render Dashboard → **New → Blueprint** → select the repo → **Apply**. Render creates both web services; set `DATABASE_URL` to the Supabase pooler URL when prompted (or in the API service's Environment tab).
-4. Wait for `uniride-api` to go live, then open `https://uniride-api.onrender.com/api/health` — it must return `{"data":{"status":"ok",...}}`. The API applies `schema.sql` on every boot (idempotent).
+4. Wait for `uniride-unistay` to go live, then open `https://uniride-unistay.onrender.com/api/health` — it must return `{"data":{"status":"ok",...}}`. The API applies `schema.sql` on every boot (idempotent).
 5. Open `https://uniride-web.onrender.com`.
 6. **Seed once** (optional but needed for demo logins) from the backend directory: `DATABASE_URL='<pooler-url>' DATABASE_SSL=true npm run db:seed`.
 
@@ -287,7 +287,7 @@ JS-only, so no rebuild is needed once the current APK is installed:
 
 ```bash
 cd uniride_unistay_mobile
-# set EXPO_PUBLIC_API_URL=https://uniride-api.onrender.com in .env
+# set EXPO_PUBLIC_API_URL=https://uniride-unistay.onrender.com in .env
 npm run update -- -m "Point API at Render" --platform android
 ```
 

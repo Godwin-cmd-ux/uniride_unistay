@@ -17,7 +17,7 @@
       "autoIncrement": true,
       "channel": "production",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://uniride-api.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://uniride-unistay.onrender.com"
       },
       "android": {
         "buildType": "apk"
